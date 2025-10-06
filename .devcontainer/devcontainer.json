@@ -1,0 +1,73 @@
+{
+  "name": "Todo PHP - CakePHP Dev Environment",
+  "dockerComposeFile": "../docker-compose.dev.yml",
+  "service": "php",
+  "workspaceFolder": "/var/www/html",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug",
+        "zobo.php-intellisense",
+        "ms-azuretools.vscode-docker",
+        "mikestead.dotenv",
+        "EditorConfig.EditorConfig",
+        "streetsidesoftware.code-spell-checker",
+        "eamodio.gitlens",
+        "gruntfuggly.todo-tree",
+        "ms-vscode.makefile-tools"
+      ],
+      "settings": {
+        "php.validate.enable": true,
+        "php.validate.run": "onType",
+        "intelephense.environment.phpVersion": "8.2.0",
+        "intelephense.files.maxSize": 5000000,
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.associations": {
+          "*.ctp": "php"
+        },
+        "files.exclude": {
+          "**/vendor": true,
+          "**/tmp": true,
+          "**/.git": true
+        },
+        "search.exclude": {
+          "**/vendor": true,
+          "**/tmp": true
+        }
+      }
+    }
+  },
+  "forwardPorts": [
+    8080,
+    8081,
+    3306
+  ],
+  "portsAttributes": {
+    "8080": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    },
+    "8081": {
+      "label": "PHPMyAdmin",
+      "onAutoForward": "silent"
+    },
+    "3306": {
+      "label": "MySQL",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "composer install && chmod -R 777 logs tmp",
+  "remoteUser": "root",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,readonly,type=bind,consistency=cached"
+  ]
+}

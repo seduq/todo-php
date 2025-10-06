@@ -1,52 +1,22 @@
-# CakePHP specific files #
-##########################
-/config/app_local.php
-/config/.env
-/logs/*
-/tmp/*
-/vendor/*
+# Ignore environment files
+.env
+.env.local
 
-# OS generated files #
-######################
+# Ignore Docker volumes
+/mysql_data/
+
+# Ignore logs
+*.log
+
+# Ignore OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-# Icon must end with two \r
-Icon
-ehthumbs.db
 Thumbs.db
-.directory
 
-# Tool specific files #
-#######################
-# PHPUnit
-.phpunit.cache
-tests.sqlite
-# vim
-*~
+# Ignore IDE files (except committed configs)
+.idea/
+# Keep .vscode/ folder - it has useful configs
+# But ignore personal workspace settings
+.vscode/*.code-workspace
 *.swp
 *.swo
-# sublime text & textmate
-*.sublime-*
-*.stTheme.cache
-*.tmlanguage.cache
-*.tmPreferences.cache
-# Eclipse
-.settings/*
-# JetBrains, aka PHPStorm, IntelliJ IDEA
-.idea/*
-# NetBeans
-nbproject/*
-# Visual Studio Code
-.vscode
-# nova
-.nova
-# Sass preprocessor
-.sass-cache/
-# node
-/node_modules/*
-# yarn
-yarn-debug.log
-yarn-error.log
+*~

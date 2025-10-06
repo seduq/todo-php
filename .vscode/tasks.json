@@ -1,0 +1,107 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CakePHP: Clear Cache",
+      "type": "shell",
+      "command": "bin/cake cache clear_all",
+      "problemMatcher": [],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "CakePHP: Run Migrations",
+      "type": "shell",
+      "command": "bin/cake migrations migrate",
+      "problemMatcher": [],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Composer: Install",
+      "type": "shell",
+      "command": "composer install",
+      "problemMatcher": [],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Composer: Update",
+      "type": "shell",
+      "command": "composer update",
+      "problemMatcher": [],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Run PHPUnit Tests",
+      "type": "shell",
+      "command": "vendor/bin/phpunit",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "PHPStan: Analyze",
+      "type": "shell",
+      "command": "vendor/bin/phpstan analyse src",
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "PHPCS: Check Code Style",
+      "type": "shell",
+      "command": "vendor/bin/phpcs src",
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "PHPCBF: Fix Code Style",
+      "type": "shell",
+      "command": "vendor/bin/phpcbf src",
+      "problemMatcher": [],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Fix Permissions",
+      "type": "shell",
+      "command": "chmod -R 777 logs tmp",
+      "problemMatcher": [],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
+}

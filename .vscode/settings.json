@@ -1,0 +1,25 @@
+{
+    "php.validate.enable": true,
+    "php.validate.run": "onType",
+    "intelephense.environment.phpVersion": "8.2.0",
+    "intelephense.files.maxSize": 5000000,
+    "files.associations": {
+        "*.ctp": "php"
+    },
+    "files.exclude": {
+        "**/vendor": true,
+        "**/tmp": true,
+        "**/.git": true
+    },
+    "search.exclude": {
+        "**/vendor": true,
+        "**/tmp": true
+    },
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    "php.suggest.basic": false,
+    "intelephense.diagnostics.undefinedSymbols": false,
+    "intelephense.trace.server": "messages"
+}

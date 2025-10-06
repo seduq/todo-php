@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug",
+        "zobo.php-intellisense",
+        "ms-azuretools.vscode-docker",
+        "mikestead.dotenv",
+        "editorconfig.editorconfig",
+        "streetsidesoftware.code-spell-checker",
+        "eamodio.gitlens",
+        "gruntfuggly.todo-tree",
+        "ms-vscode.makefile-tools"
+    ]
+}

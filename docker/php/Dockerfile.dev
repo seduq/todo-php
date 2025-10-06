@@ -1,0 +1,59 @@
+FROM php:8.2-fpm
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    libicu-dev \
+    zip \
+    unzip \
+    vim \
+    nano \
+    wget \
+    bash-completion \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions required by CakePHP
+RUN docker-php-ext-install \
+    pdo_mysql \
+    mysqli \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    intl \
+    zip \
+    opcache
+
+# Install Xdebug for development
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set working directory
+WORKDIR /var/www/html
+
+# PHP-FPM configuration
+RUN echo "php_admin_value[error_log] = /var/log/php-fpm/error.log" >> /usr/local/etc/php-fpm.d/www.conf \
+    && echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
+
+# Copy PHP configuration
+COPY docker/php/php-dev.ini /usr/local/etc/php/conf.d/custom.ini
+
+# Configure bash history persistence
+RUN mkdir -p /root/.bash_history_data \
+    && echo 'export HISTFILE=/root/.bash_history_data/.bash_history' >> /root/.bashrc \
+    && echo 'export PROMPT_COMMAND="history -a"' >> /root/.bashrc \
+    && echo 'export HISTSIZE=10000' >> /root/.bashrc \
+    && echo 'export HISTFILESIZE=20000' >> /root/.bashrc
+
+# Expose port 9000
+EXPOSE 9000
+
+CMD ["php-fpm"]

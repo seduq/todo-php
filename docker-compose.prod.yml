@@ -1,0 +1,93 @@
+services:
+  # PHP-FPM Service
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile.prod
+    container_name: todoapp_php_prod
+    restart: always
+    working_dir: /var/www/html
+    volumes:
+      - php_logs:/var/log/php-fpm
+    environment:
+      - DEBUG=false
+      - DATABASE_HOST=localhost
+      - DATABASE_USER=todoapp
+      - DATABASE_NAME=todoapp
+      - SECURITY_SALT=${SECURITY_SALT}
+      - DATABASE_PORT=${DATABASE_PORT:-3306}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    networks:
+      - todoapp_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm -t || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: todoapp_nginx_prod
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - nginx_logs:/var/log/nginx
+    networks:
+      - todoapp_network
+    depends_on:
+      php:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MySQL Service
+  mysql:
+    image: mysql:8.0
+    container_name: todoapp_mysql_prod
+    restart: always
+    environment:
+      MYSQL_USER: todoapp
+      MYSQL_DATABASE: todoapp
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - mysql_logs:/var/log/mysql
+    networks:
+      - todoapp_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root_password}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  todoapp_network:
+    driver: bridge
+    name: todoapp_network_prod
+
+volumes:
+  mysql_data:
+    driver: local
+    name: todoapp_mysql_data_prod
+  mysql_logs:
+    driver: local
+    name: todoapp_mysql_logs_prod
+  php_logs:
+    driver: local
+    name: todoapp_php_logs_prod
+  nginx_logs:
+    driver: local
+    name: todoapp_nginx_logs_prod

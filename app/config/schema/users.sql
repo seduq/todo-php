@@ -1,0 +1,11 @@
+-- Simple User Authentication System
+
+CREATE TABLE IF NOT EXISTS `users` (
+    `id` INT AUTO_INCREMENT ,
+    `username` VARCHAR(50) NOT NULL UNIQUE,
+    `password` VARCHAR(64) NOT NULL,
+    `email` VARCHAR(100) NOT NULL UNIQUE,
+    `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    PRIMARY KEY (`id`)
+);
